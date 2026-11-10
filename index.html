@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f6f7f5">
+  <meta name="theme-color" content="#10141d">
   <title>Riga — Waze</title>
   <style>
     :root {
-      color-scheme: light;
-      --bg: #f6f7f5;
-      --surface: #fff;
-      --text: #1f241f;
-      --muted: #6f7a72;
-      --line: #e7eae6;
-      --accent: #2b6d58;
-      --accent-soft: #eaf4f0;
-      --shadow: rgba(20, 31, 24, 0.06);
+      color-scheme: dark;
+      --bg: #10141d;
+      --surface: #1b2230;
+      --text: #f3f5f8;
+      --muted: #9ba6b8;
+      --line: #30394a;
+      --accent: #55d6a5;
+      --accent-soft: #1d3b35;
+      --shadow: rgba(0, 0, 0, 0.18);
     }
 
     * { box-sizing: border-box; }
@@ -29,14 +29,12 @@
     }
 
     main {
-      width: min(100% - 28px, 420px);
+      width: min(100% - 28px, 480px);
       margin: 0 auto;
       padding: 36px 0 44px;
     }
 
-    header {
-      margin-bottom: 26px;
-    }
+    header { margin-bottom: 26px; }
 
     h1 {
       margin: 0;
@@ -61,6 +59,13 @@
       text-transform: uppercase;
     }
 
+    .section-note {
+      margin: -5px 0 12px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
     .grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -76,15 +81,24 @@
     }
 
     .spot {
-      min-height: 72px;
+      min-height: 76px;
       padding: 10px 12px;
       text-align: left;
       cursor: pointer;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      gap: 5px;
+      gap: 6px;
+      font: inherit;
+      transition: border-color .15s, transform .15s;
     }
+
+    .spot:hover, .spot:focus-visible {
+      border-color: var(--accent);
+      outline: none;
+    }
+
+    .spot:active { transform: scale(.98); }
 
     .spot-name {
       font-size: 14px;
@@ -103,14 +117,9 @@
       padding: 4px 8px;
     }
 
-    section + section {
-      margin-top: 28px;
-    }
+    section + section { margin-top: 28px; }
 
-    .form-wrap {
-      display: flex;
-      gap: 8px;
-    }
+    .form-wrap { display: flex; gap: 8px; }
 
     input {
       flex: 1;
@@ -126,13 +135,8 @@
       outline: none;
     }
 
-    input:focus {
-      border-color: var(--accent);
-    }
-
-    input::placeholder {
-      color: #9ba29b;
-    }
+    input:focus { border-color: var(--accent); }
+    input::placeholder { color: #788397; }
 
     .add {
       width: 46px;
@@ -140,17 +144,13 @@
       border: 0;
       border-radius: 12px;
       background: var(--accent);
-      color: #fff;
+      color: #102019;
       font-size: 25px;
       cursor: pointer;
       line-height: 1;
     }
 
-    .saved {
-      margin-top: 10px;
-      display: grid;
-      gap: 8px;
-    }
+    .saved { margin-top: 10px; display: grid; gap: 8px; }
 
     .saved-place {
       display: flex;
@@ -177,12 +177,7 @@
       text-overflow: ellipsis;
     }
 
-    .saved-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-shrink: 0;
-    }
+    .saved-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 
     .go-btn, .remove-btn {
       border: 0;
@@ -192,28 +187,14 @@
       padding: 0;
     }
 
-    .go-btn {
-      color: var(--accent);
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    .remove-btn {
-      color: var(--muted);
-      font-size: 20px;
-      line-height: 1;
-    }
-
-    .empty {
-      color: var(--muted);
-      font-size: 13px;
-      padding: 8px 2px 0;
-    }
+    .go-btn { color: var(--accent); font-size: 13px; font-weight: 600; }
+    .remove-btn { color: var(--muted); font-size: 20px; line-height: 1; }
+    .empty { color: var(--muted); font-size: 13px; padding: 8px 2px 0; }
 
     @media (max-width: 350px) {
       main { width: calc(100% - 20px); }
       .grid { grid-template-columns: 1fr; }
-      .saved-place { padding: 10px 10px; }
+      .saved-place { padding: 10px; }
     }
   </style>
 </head>
@@ -226,6 +207,7 @@
 
     <section aria-labelledby="popular-title">
       <h2 id="popular-title">Popular places</h2>
+      <p class="section-note">Busy pickup areas and transport hubs to head toward between rides.</p>
       <div class="grid" id="popular"></div>
     </section>
 
@@ -243,12 +225,20 @@
     const popularSpots = [
       { name: 'Old Town', lat: 56.9496, lng: 24.1052 },
       { name: 'Central Station', lat: 56.9487, lng: 24.1145 },
+      { name: 'Riga Bus Station', lat: 56.9447, lng: 24.1133 },
       { name: 'Dome Square', lat: 56.9491, lng: 24.1053 },
       { name: 'Freedom Monument', lat: 56.9526, lng: 24.1169 },
       { name: 'Vērmanes Garden', lat: 56.9556, lng: 24.1128 },
       { name: 'Arena Riga', lat: 56.9601, lng: 24.1204 },
       { name: 'Riga Airport', lat: 56.9221, lng: 23.9711 },
-      { name: 'Central Market', lat: 56.9437, lng: 24.1135 }
+      { name: 'Central Market', lat: 56.9437, lng: 24.1135 },
+      { name: 'Riga Passenger Port', lat: 56.9589, lng: 24.0967 },
+      { name: 'Spice Shopping Centre', lat: 56.9234, lng: 24.0447 },
+      { name: 'Akropole Riga', lat: 56.9068, lng: 24.1735 },
+      { name: 'Riga Plaza', lat: 56.9213, lng: 24.1036 },
+      { name: 'Galleria Riga', lat: 56.9548, lng: 24.1175 },
+      { name: 'Alfa Shopping Centre', lat: 56.9847, lng: 24.2036 },
+      { name: 'Mežaparks', lat: 57.0005, lng: 24.1594 }
     ];
 
     const STORAGE_KEY = 'riga-waze-saved';
