@@ -10,12 +10,16 @@
       color-scheme: light;
       --bg: #f6f7f5;
       --surface: #fff;
-      --text: #20251f;
-      --muted: #788078;
-      --line: #e6e9e4;
-      --accent: #286b52;
+      --text: #1f241f;
+      --muted: #6f7a72;
+      --line: #e7eae6;
+      --accent: #2b6d58;
+      --accent-soft: #eaf4f0;
+      --shadow: rgba(20, 31, 24, 0.06);
     }
+
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
       background: var(--bg);
@@ -23,65 +27,201 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       -webkit-font-smoothing: antialiased;
     }
-    main { width: min(100% - 32px, 440px); margin: 0 auto; padding: 38px 0 48px; }
-    header { margin-bottom: 30px; }
-    h1 { margin: 0; font-size: 28px; font-weight: 650; letter-spacing: -1px; }
-    header p { margin: 5px 0 0; color: var(--muted); font-size: 14px; }
-    h2 { margin: 0 0 12px; color: var(--muted); font-size: 11px; font-weight: 650; letter-spacing: .1em; text-transform: uppercase; }
-    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+
+    main {
+      width: min(100% - 28px, 420px);
+      margin: 0 auto;
+      padding: 36px 0 44px;
+    }
+
+    header {
+      margin-bottom: 26px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 31px;
+      line-height: 1.1;
+      letter-spacing: -1.1px;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
     .spot, .saved-place {
-      min-height: 48px;
       border: 1px solid var(--line);
-      border-radius: 10px;
+      border-radius: 12px;
       background: var(--surface);
       color: var(--text);
-      font: inherit;
-      font-size: 14px;
-      text-align: left;
+      box-shadow: 0 6px 16px var(--shadow);
     }
-    .spot { padding: 0 13px; cursor: pointer; transition: border-color .15s, transform .15s; }
-    .spot:hover { border-color: #b7c8bc; }
-    .spot:active { transform: scale(.98); }
-    section + section { margin-top: 30px; }
-    form { display: flex; gap: 8px; }
+
+    .spot {
+      min-height: 72px;
+      padding: 10px 12px;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .spot-name {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .eta {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent);
+      background: var(--accent-soft);
+      border-radius: 999px;
+      display: inline-block;
+      width: fit-content;
+      padding: 4px 8px;
+    }
+
+    section + section {
+      margin-top: 28px;
+    }
+
+    .form-wrap {
+      display: flex;
+      gap: 8px;
+    }
+
     input {
-      min-width: 0;
       flex: 1;
-      height: 44px;
-      padding: 0 12px;
-      border: 1px solid var(--line);
-      border-radius: 10px;
+      min-width: 0;
+      height: 46px;
       background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 0 12px;
       color: var(--text);
       font: inherit;
       font-size: 14px;
       outline: none;
     }
-    input:focus { border-color: var(--accent); }
-    input::placeholder { color: #9aa19a; }
+
+    input:focus {
+      border-color: var(--accent);
+    }
+
+    input::placeholder {
+      color: #9ba29b;
+    }
+
     .add {
       width: 46px;
-      height: 44px;
+      height: 46px;
       border: 0;
-      border-radius: 10px;
+      border-radius: 12px;
       background: var(--accent);
-      color: white;
-      font-size: 22px;
+      color: #fff;
+      font-size: 25px;
       cursor: pointer;
+      line-height: 1;
     }
-    .saved { display: grid; gap: 8px; margin-top: 8px; }
-    .saved-place { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 12px; }
-    .saved-place button { border: 0; background: none; color: var(--accent); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
-    .saved-place .remove { color: var(--muted); font-size: 18px; padding: 4px; }
-    .empty { color: var(--muted); font-size: 13px; padding: 5px 0; }
-    @media (max-width: 340px) { main { width: calc(100% - 24px); } .grid { gap: 6px; } .spot { padding: 0 9px; font-size: 13px; } }
+
+    .saved {
+      margin-top: 10px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .saved-place {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      min-height: 52px;
+      padding: 10px 12px;
+    }
+
+    .saved-main {
+      min-width: 0;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .saved-address {
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .saved-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .go-btn, .remove-btn {
+      border: 0;
+      background: none;
+      font: inherit;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .go-btn {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .remove-btn {
+      color: var(--muted);
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .empty {
+      color: var(--muted);
+      font-size: 13px;
+      padding: 8px 2px 0;
+    }
+
+    @media (max-width: 350px) {
+      main { width: calc(100% - 20px); }
+      .grid { grid-template-columns: 1fr; }
+      .saved-place { padding: 10px 10px; }
+    }
   </style>
 </head>
 <body>
   <main>
     <header>
       <h1>Riga</h1>
-      <p>Choose a place to navigate with Waze</p>
+      <p class="subtitle">ETA from your current location</p>
     </header>
 
     <section aria-labelledby="popular-title">
@@ -91,95 +231,231 @@
 
     <section aria-labelledby="saved-title">
       <h2 id="saved-title">Your places</h2>
-      <form id="add-form">
-        <input id="address" type="text" placeholder="Add an address" aria-label="Address to save" maxlength="120" required>
-        <button class="add" type="submit" aria-label="Save address">+</button>
-      </form>
+      <div class="form-wrap">
+        <input id="address" type="text" placeholder="Add an address" maxlength="120" aria-label="Address to save" />
+        <button class="add" type="button" id="saveBtn" aria-label="Save address">+</button>
+      </div>
       <div class="saved" id="saved"></div>
     </section>
   </main>
 
   <script>
-    const spots = [
-      ['Old Town', '56.9496,24.1052'],
-      ['Central Station', '56.9487,24.1145'],
-      ['Dome Square', '56.9491,24.1053'],
-      ['Freedom Monument', '56.9526,24.1169'],
-      ['Vērmanes Garden', '56.9556,24.1128'],
-      ['Arena Riga', '56.9601,24.1204'],
-      ['Riga Airport', '56.9221,23.9711'],
-      ['Central Market', '56.9437,24.1135']
+    const popularSpots = [
+      { name: 'Old Town', lat: 56.9496, lng: 24.1052 },
+      { name: 'Central Station', lat: 56.9487, lng: 24.1145 },
+      { name: 'Dome Square', lat: 56.9491, lng: 24.1053 },
+      { name: 'Freedom Monument', lat: 56.9526, lng: 24.1169 },
+      { name: 'Vērmanes Garden', lat: 56.9556, lng: 24.1128 },
+      { name: 'Arena Riga', lat: 56.9601, lng: 24.1204 },
+      { name: 'Riga Airport', lat: 56.9221, lng: 23.9711 },
+      { name: 'Central Market', lat: 56.9437, lng: 24.1135 }
     ];
-    const key = 'riga-waze-places';
-    const popular = document.getElementById('popular');
-    const saved = document.getElementById('saved');
 
-    function navigate(query) {
-      window.location.href = 'https://www.waze.com/ul?ll=' + encodeURIComponent(query) + '&navigate=yes';
-    }
+    const STORAGE_KEY = 'riga-waze-saved';
+    const currentLocation = { lat: null, lng: null, ready: false };
 
-    spots.forEach(([name, location]) => {
-      const button = document.createElement('button');
-      button.className = 'spot';
-      button.type = 'button';
-      button.textContent = name;
-      button.addEventListener('click', () => navigate(location));
-      popular.appendChild(button);
-    });
-
-    function getPlaces() {
-      try { return JSON.parse(localStorage.getItem(key) || '[]'); }
-      catch { return []; }
-    }
-
-    function renderPlaces() {
-      saved.replaceChildren();
-      const places = getPlaces();
-      if (!places.length) {
-        const empty = document.createElement('div');
-        empty.className = 'empty';
-        empty.textContent = 'No saved addresses';
-        saved.appendChild(empty);
-        return;
+    function getSavedPlaces() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        const items = raw ? JSON.parse(raw) : [];
+        return items.filter(Boolean).map(item => typeof item === 'string' ? { address: item, lat: null, lng: null } : item);
+      } catch {
+        return [];
       }
-      places.forEach((address, index) => {
-        const row = document.createElement('div');
-        row.className = 'saved-place';
-        const label = document.createElement('span');
-        label.textContent = address;
-        const go = document.createElement('button');
-        go.type = 'button';
-        go.textContent = 'Go';
-        go.addEventListener('click', () => navigate(address));
-        const remove = document.createElement('button');
-        remove.className = 'remove';
-        remove.type = 'button';
-        remove.textContent = '×';
-        remove.setAttribute('aria-label', 'Remove ' + address);
-        remove.addEventListener('click', () => {
-          const updated = getPlaces();
-          updated.splice(index, 1);
-          localStorage.setItem(key, JSON.stringify(updated));
-          renderPlaces();
-        });
-        row.append(label, go, remove);
-        saved.appendChild(row);
+    }
+
+    function saveSavedPlaces(items) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    }
+
+    function toRadians(value) {
+      return value * Math.PI / 180;
+    }
+
+    function distanceKm(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = toRadians(lat2 - lat1);
+      const dLon = toRadians(lon2 - lon1);
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      return 2 * R * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    }
+
+    function estimateMinutes(lat1, lon1, lat2, lon2) {
+      if (lat1 == null || lon1 == null || lat2 == null || lon2 == null) return null;
+      const km = distanceKm(lat1, lon1, lat2, lon2);
+      const avgSpeedKmh = 28;
+      const mins = (km / avgSpeedKmh) * 60;
+      return Math.max(3, Math.round(mins));
+    }
+
+    function formatEta(minutes) {
+      if (minutes == null) return 'ETA unavailable';
+      return `~${minutes} min`;
+    }
+
+    function getPlaceEta(lat, lng) {
+      if (!currentLocation.ready || currentLocation.lat == null || currentLocation.lng == null) return null;
+      return estimateMinutes(currentLocation.lat, currentLocation.lng, lat, lng);
+    }
+
+    function renderPopular() {
+      const el = document.getElementById('popular');
+      el.innerHTML = '';
+
+      popularSpots.forEach(place => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'spot';
+        btn.addEventListener('click', () => openWaze(place.lat, place.lng, place.name));
+
+        const name = document.createElement('span');
+        name.className = 'spot-name';
+        name.textContent = place.name;
+
+        const eta = document.createElement('span');
+        eta.className = 'eta';
+        eta.textContent = formatEta(getPlaceEta(place.lat, place.lng));
+
+        btn.appendChild(name);
+        btn.appendChild(eta);
+        el.appendChild(btn);
       });
     }
 
-    document.getElementById('add-form').addEventListener('submit', event => {
-      event.preventDefault();
+    function renderSaved() {
+      const el = document.getElementById('saved');
+      const items = getSavedPlaces();
+      el.innerHTML = '';
+
+      if (!items.length) {
+        const empty = document.createElement('div');
+        empty.className = 'empty';
+        empty.textContent = 'No saved addresses';
+        el.appendChild(empty);
+        return;
+      }
+
+      items.forEach((item, index) => {
+        const row = document.createElement('div');
+        row.className = 'saved-place';
+
+        const main = document.createElement('div');
+        main.className = 'saved-main';
+
+        const address = document.createElement('div');
+        address.className = 'saved-address';
+        address.textContent = item.address;
+
+        const eta = document.createElement('span');
+        eta.className = 'eta';
+        eta.textContent = formatEta(getPlaceEta(item.lat, item.lng));
+
+        main.appendChild(address);
+        main.appendChild(eta);
+
+        const actions = document.createElement('div');
+        actions.className = 'saved-actions';
+
+        const go = document.createElement('button');
+        go.type = 'button';
+        go.className = 'go-btn';
+        go.textContent = 'Go';
+        go.addEventListener('click', () => openWaze(item.lat, item.lng, item.address));
+
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.className = 'remove-btn';
+        remove.textContent = '×';
+        remove.setAttribute('aria-label', 'Remove address');
+        remove.addEventListener('click', () => {
+          const fresh = getSavedPlaces();
+          fresh.splice(index, 1);
+          saveSavedPlaces(fresh);
+          renderSaved();
+        });
+
+        actions.appendChild(go);
+        actions.appendChild(remove);
+        row.appendChild(main);
+        row.appendChild(actions);
+        el.appendChild(row);
+      });
+    }
+
+    function openWaze(lat, lng, query) {
+      const hasCoords = lat != null && lng != null;
+      const wazeUrl = hasCoords
+        ? `https://www.waze.com/ul?ll=${lat},${lng}&navigate=yes&zoom=17`
+        : `https://www.waze.com/ul?q=${encodeURIComponent(query)}&navigate=yes`;
+
+      window.open(wazeUrl, '_blank');
+    }
+
+    async function geocodeAddress(address) {
+      const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q=${encodeURIComponent(address)}`;
+      const response = await fetch(url, {
+        headers: { 'Accept-Language': 'en' }
+      });
+      const data = await response.json();
+      if (!data || !data.length) return { lat: null, lng: null };
+      return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
+    }
+
+    async function saveAddress() {
       const input = document.getElementById('address');
-      const address = input.value.trim();
-      if (!address) return;
-      const places = getPlaces();
-      places.unshift(address);
-      localStorage.setItem(key, JSON.stringify(places.slice(0, 10)));
+      const value = input.value.trim();
+      if (!value) return;
+
+      const coords = await geocodeAddress(value);
+      const item = { address: value, lat: coords.lat, lng: coords.lng };
+      const saved = getSavedPlaces();
+      saved.unshift(item);
+      saveSavedPlaces(saved.slice(0, 10));
       input.value = '';
-      renderPlaces();
+      renderSaved();
+    }
+
+    function updateLocation(position) {
+      currentLocation.lat = position.coords.latitude;
+      currentLocation.lng = position.coords.longitude;
+      currentLocation.ready = true;
+      renderPopular();
+      renderSaved();
+    }
+
+    function locationFailed() {
+      currentLocation.ready = false;
+      renderPopular();
+      renderSaved();
+    }
+
+    function requestLocation() {
+      if (!navigator.geolocation) {
+        locationFailed();
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(updateLocation, locationFailed, {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 300000
+      });
+    }
+
+    document.getElementById('saveBtn').addEventListener('click', saveAddress);
+    document.getElementById('address').addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        saveAddress();
+      }
     });
 
-    renderPlaces();
+    renderPopular();
+    renderSaved();
+    requestLocation();
   </script>
 </body>
 </html>
