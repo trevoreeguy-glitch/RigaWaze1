@@ -1,45 +1,366 @@
-
-
 <!DOCTYPE html>
-
-<html lang="ru">
-
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#10141d" />
+  <title>Riga Waze</title>
+  <style>
+    :root {
+      --bg: #10141d;
+      --panel: #171d2a;
+      --panel-2: #202a3b;
+      --card: #1b2333;
+      --line: #2b364b;
+      --text: #edf3ff;
+      --muted: #9aa8ba;
+      --accent: #36b3ff;
+      --accent-2: #9fe3ff;
+      --success: #2fd18b;
+      --shadow: rgba(0, 0, 0, 0.22);
+    }
 
-<meta charset="UTF-8">
+    * { box-sizing: border-box; }
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
 
-<meta name="theme-color" content="#10141d">
+    body {
+      display: flex;
+      justify-content: center;
+      padding: 18px 12px 28px;
+    }
 
-<title>Waze Riga</title>
+    .app {
+      width: 100%;
+      max-width: 500px;
+    }
 
-<style>
+    .topbar {
+      margin-bottom: 18px;
+    }
 
-*{box-sizing:border-box}
+    h1 {
+      font-size: clamp(1.7rem, 4vw, 2.2rem);
+      margin: 0 0 4px;
+      letter-spacing: -0.04em;
+    }
 
-body{
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
 
- margin:0;padding:18px 13px;
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 0 12px 24px var(--shadow);
+      padding: 14px 12px 12px;
+      margin-bottom: 16px;
+    }
 
- background:#10141d;color:white;
+    .card h2 {
+      margin: 0 0 12px;
+      font-size: 0.88rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+    }
 
- font-family:-apple-system,Arial,sans-serif;
+    .place-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
 
-}
+    .place-btn {
+      width: 100%;
+      background: linear-gradient(180deg, var(--card), var(--panel-2));
+      border: 1px solid var(--line);
+      color: var(--text);
+      border-radius: 14px;
+      min-height: 72px;
+      padding: 10px 8px;
+      text-align: center;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      cursor: pointer;
+      transition: transform 0.12s ease, border-color 0.12s ease, background 0.12s ease;
+    }
 
-h1{font-size:25px;margin:0 0 4px}
+    .place-btn:active {
+      transform: scale(0.98);
+    }
 
-.sub{font-size:13px;color:#9ba6b8;margin-bottom:17px}
+    .place-btn strong,
+    .place-btn span {
+      display: block;
+      line-height: 1.2;
+    }
 
-h3{font-size:11px;color:#9ba6b8;margin:19px 0 9px}
+    .place-btn small {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-weight: 500;
+      font-size: 0.7rem;
+    }
 
-input{
+    form {
+      display: grid;
+      gap: 8px;
+    }
 
- width:100%;padding:11px;
+    input {
+      width: 100%;
+      background: #1b2436;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      color: var(--text);
+      padding: 12px 11px;
+      font-size: 0.96rem;
+      outline: none;
+    }
 
- margin-bottom:7px;border-radius:9px;
+    input::placeholder {
+      color: var(--muted);
+    }
 
- border:1px solid #343c4c;
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(54, 179, 255, 0.18);
+    }
 
- background:#202735;color:white;font-size:1
+    .add-btn {
+      border: none;
+      border-radius: 11px;
+      background: linear-gradient(180deg, var(--accent), #1d8fe1);
+      color: white;
+      min-height: 42px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .saved-list {
+      margin-top: 12px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .saved-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: #1a2436;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 9px 10px;
+    }
+
+    .saved-item button {
+      border: none;
+      background: rgba(54, 179, 255, 0.12);
+      color: var(--accent-2);
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .saved-info {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .saved-name {
+      display: block;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .saved-address {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .empty {
+      color: var(--muted);
+      font-size: 0.85rem;
+      padding: 10px 2px 2px;
+    }
+
+    @media (max-width: 360px) {
+      .place-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <h1>Riga Waze</h1>
+      <p class="subtitle">Quick routes to the best places in Riga</p>
+    </header>
+
+    <section class="card">
+      <h2>Popular spots</h2>
+      <div id="popularPlaces" class="place-grid"></div>
+    </section>
+
+    <section class="card">
+      <h2>My places</h2>
+      <form id="customForm">
+        <input id="placeName" type="text" maxlength="30" placeholder="Name (for example: Home)" required />
+        <input id="placeAddress" type="text" maxlength="80" placeholder="Address or location" required />
+        <button class="add-btn" type="submit">Add place</button>
+      </form>
+      <div id="savedPlaces" class="saved-list"></div>
+    </section>
+  </main>
+
+  <script>
+    const popularPlaces = [
+      { name: 'Old Town', subtitle: 'Rīga', lat: 56.9496, lng: 24.1052 },
+      { name: 'Central Station', subtitle: 'Stacijas iela', lat: 56.9487, lng: 24.1145 },
+      { name: 'Dome Square', subtitle: 'Rātslaukums', lat: 56.9491, lng: 24.1053 },
+      { name: 'Vērmane Garden', subtitle: 'Park', lat: 56.9556, lng: 24.1128 },
+      { name: 'Arena Riga', subtitle: 'Sport', lat: 56.9601, lng: 24.1204 },
+      { name: 'Riga Airport', subtitle: 'Lidosta', lat: 56.9221, lng: 23.9711 },
+      { name: 'Daugava River', subtitle: 'Riverfront', lat: 56.9480, lng: 24.0762 },
+      { name: 'Freedom Monument', subtitle: 'Brīvības piemineklis', lat: 56.9526, lng: 24.1169 }
+    ];
+
+    const STORAGE_KEY = 'rigaWazeCustomPlaces';
+
+    function getCustomPlaces() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        return saved ? JSON.parse(saved) : [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function saveCustomPlaces(items) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    }
+
+    function renderPopularPlaces() {
+      const container = document.getElementById('popularPlaces');
+      container.innerHTML = '';
+
+      popularPlaces.forEach((place) => {
+        const button = document.createElement('button');
+        button.className = 'place-btn';
+        button.type = 'button';
+        button.innerHTML = `
+          <strong>${place.name}</strong>
+          <small>${place.subtitle}</small>
+        `;
+        button.addEventListener('click', () => openWaze(place.lat, place.lng, place.name));
+        container.appendChild(button);
+      });
+    }
+
+    function renderSavedPlaces() {
+      const container = document.getElementById('savedPlaces');
+      const saved = getCustomPlaces();
+
+      if (!saved.length) {
+        container.innerHTML = '<div class="empty">No custom places yet.</div>';
+        return;
+      }
+
+      container.innerHTML = '';
+
+      saved.forEach((place) => {
+        const item = document.createElement('div');
+        item.className = 'saved-item';
+
+        const info = document.createElement('div');
+        info.className = 'saved-info';
+        info.innerHTML = `
+          <span class="saved-name">${place.name}</span>
+          <span class="saved-address">${place.address}</span>
+        `;
+
+        const navigateBtn = document.createElement('button');
+        navigateBtn.type = 'button';
+        navigateBtn.textContent = 'Go';
+        navigateBtn.addEventListener('click', () => openWaze(place.lat, place.lng, place.address));
+
+        item.appendChild(info);
+        item.appendChild(navigateBtn);
+        container.appendChild(item);
+      });
+    }
+
+    function openWaze(lat, lng, query) {
+      const appUrl = lat != null && lng != null
+        ? `waze://?ll=${lat},${lng}&navigate=yes`
+        : `waze://?q=${encodeURIComponent(query)}&navigate=yes`;
+
+      const webUrl = lat != null && lng != null
+        ? `https://www.waze.com/ul?ll=${lat},${lng}&navigate=yes&zoom=17`
+        : `https://www.waze.com/ul?q=${encodeURIComponent(query)}&navigate=yes`;
+
+      try {
+        const link = document.createElement('a');
+        link.href = appUrl;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } catch (error) {
+        // ignored
+      }
+
+      setTimeout(() => {
+        window.open(webUrl, '_blank');
+      }, 500);
+    }
+
+    document.getElementById('customForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      const name = document.getElementById('placeName').value.trim();
+      const address = document.getElementById('placeAddress').value.trim();
+
+      if (!name || !address) return;
+
+      const customPlaces = getCustomPlaces();
+      const newPlace = {
+        name,
+        address,
+        lat: null,
+        lng: null
+      };
+
+      customPlaces.unshift(newPlace);
+      saveCustomPlaces(customPlaces.slice(0, 6));
+
+      document.getElementById('customForm').reset();
+      renderSavedPlaces();
+    });
+
+    renderPopularPlaces();
+    renderSavedPlaces();
+  </script>
+</body>
+</html>
